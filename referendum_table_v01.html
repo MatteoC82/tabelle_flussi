@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referendum – Elettorato Europee 2024</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink-light: #4a4a6a;
+    --bg: #fafaf7;
+    --rule: #d0cfc8;
+    --si-bg: #e8f4f0;
+    --si-accent: #2a7a5e;
+    --no-bg: #fdecea;
+    --no-accent: #c0392b;
+    --subtotal-bg: #3b4a5c;
+    --subtotal-fg: #eef2f6;
+    --stripe: #f4f4ef;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    padding: 2.5rem 1.5rem;
+    min-height: 100vh;
+  }
+
+  .wrapper { max-width: 900px; margin: 0 auto; }
+
+  .title-block {
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--si-accent);
+    padding-left: 1rem;
+  }
+  .title-block h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .title-block p {
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    margin-top: 0.3rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 20px rgba(26,26,46,0.08);
+    border: 1px solid var(--rule);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    min-width: 700px;
+  }
+
+  /* ── TOP HEADER ROW ── */
+  thead tr.top-row th.top-header {
+    padding: 0.6rem 0.8rem 0.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--ink);
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    letter-spacing: 0.02em;
+  }
+  thead tr.top-row th.col-city { background: var(--bg); }
+
+  /* ── GROUP HEADER ROW ── */
+  thead tr.group-row th {
+    padding: 0.65rem 0.8rem 0.4rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    border-bottom: none;
+  }
+  thead tr.group-row th.col-city { background: var(--bg); }
+  thead tr.group-row th.group-si {
+    background: var(--si-bg);
+    color: var(--si-accent);
+    border-left: 1px solid var(--rule);
+  }
+  thead tr.group-row th.group-no {
+    background: var(--no-bg);
+    color: var(--no-accent);
+    border-left: 1px solid var(--rule);
+  }
+
+  /* ── SUB HEADER ROW ── */
+  thead tr.sub-row th {
+    padding: 0.35rem 0.8rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--rule);
+    white-space: nowrap;
+    color: var(--ink-light);
+  }
+  thead tr.sub-row th.sub-si { background: var(--si-bg); border-left: 1px solid var(--rule); }
+  thead tr.sub-row th.sub-no { background: var(--no-bg); border-left: 1px solid var(--rule); }
+
+  /* ── BODY ── */
+  tbody tr { transition: background 0.12s; }
+  tbody tr:nth-child(even):not(.subtotal) td { background: var(--stripe); }
+  tbody tr:hover:not(.subtotal) td { background: rgba(100,100,200,0.04); }
+
+  tbody td {
+    padding: 0.52rem 0.8rem;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  tbody td.city {
+    text-align: left;
+    font-weight: 500;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    white-space: nowrap;
+    width: 160px;
+    max-width: 160px;
+  }
+  tbody td.city small {
+    display: block;
+    font-size: 0.67rem;
+    font-weight: 300;
+    color: var(--ink-light);
+    margin-top: 0.1rem;
+  }
+
+  tbody td.val-si { color: var(--si-accent); font-weight: 500; border-left: none; }
+  tbody td.val-no { color: var(--no-accent); font-weight: 500; border-left: none; }
+
+  /* ── SUBTOTAL ROWS ── */
+  tbody tr.subtotal td {
+    background: var(--subtotal-bg) !important;
+    color: var(--subtotal-fg);
+    font-weight: 600;
+    border-top: 1px solid #4e6070;
+    border-bottom: 2px solid #4e6070;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+  tbody tr.subtotal td.city { color: #ffffff; }
+  tbody tr.subtotal td.city small { color: #99b8cc; }
+  tbody tr.subtotal td.val-si { color: #80e6bc; border-left: none; }
+  tbody tr.subtotal td.val-no { color: #f4a09a; border-left: none; }
+
+  /* ── SECTION GAP ── */
+  tr.section-gap td {
+    height: 5px;
+    background: #e4e2d8 !important;
+    padding: 0;
+    border: none;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="title-block">
+    <h1>Flussi di voto tra le elezioni europee 2024 e referendum costituzionale 2026</h1>
+  </div>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr class="top-row">
+        <th class="col-city" rowspan="3"></th>
+        <th class="top-header" colspan="8">Elettorato Europee 2024</th>
+      </tr>
+      <tr class="group-row">
+        <th class="group-si" colspan="4">Perc. di chi ha votato Sì</th>
+        <th class="group-no" colspan="4">Perc. di chi ha votato No</th>
+      </tr>
+      <tr class="sub-row">
+        <th class="sub-si">FDI</th>
+        <th class="sub-si">FI</th>
+        <th class="sub-si">Lega</th>
+        <th class="sub-si">Astenuti '24<br>verso il Sì</th>
+        <th class="sub-no">PD</th>
+        <th class="sub-no">M5S</th>
+        <th class="sub-no">AVS</th>
+        <th class="sub-no">Astenuti '24<br>verso il No</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- NORD -->
+      <tr>
+        <td class="city">Torino <small>sezioni: 911</small></td>
+        <td class="val-si">84%</td><td class="val-si">91%</td><td class="val-si">85%</td><td class="val-si">7%</td>
+        <td class="val-no">100%</td><td class="val-no">89%</td><td class="val-no">100%</td><td class="val-no">21%</td>
+      </tr>
+      <tr>
+        <td class="city">Milano <small>sezioni: 1.227</small></td>
+        <td class="val-si">94%</td><td class="val-si">100%</td><td class="val-si">67%</td><td class="val-si">11%</td>
+        <td class="val-no">99%</td><td class="val-no">84%</td><td class="val-no">100%</td><td class="val-no">20%</td>
+      </tr>
+      <tr>
+        <td class="city">Verona <small>sezioni: 260</small></td>
+        <td class="val-si">96%</td><td class="val-si">91%</td><td class="val-si">86%</td><td class="val-si">9%</td>
+        <td class="val-no">92%</td><td class="val-no">90%</td><td class="val-no">100%</td><td class="val-no">20%</td>
+      </tr>
+      <tr>
+        <td class="city">Genova <small>sezioni: 648</small></td>
+        <td class="val-si">87%</td><td class="val-si">98%</td><td class="val-si">72%</td><td class="val-si">10%</td>
+        <td class="val-no">100%</td><td class="val-no">90%</td><td class="val-no">100%</td><td class="val-no">21%</td>
+      </tr>
+      <tr class="subtotal">
+        <td class="city">Resto del Nord <small>sez. 11.302</small></td>
+        <td class="val-si">82%</td><td class="val-si">41%</td><td class="val-si">47%</td><td class="val-si">25%</td>
+        <td class="val-no">94%</td><td class="val-no">66%</td><td class="val-no">100%</td><td class="val-no">20%</td>
+      </tr>
+
+      <tr class="section-gap"><td colspan="9"></td></tr>
+
+      <!-- EX ZONA ROSSA -->
+      <tr>
+        <td class="city">Bologna <small>sezioni: 437</small></td>
+        <td class="val-si">96%</td><td class="val-si">78%</td><td class="val-si">85%</td><td class="val-si">12%</td>
+        <td class="val-no">99%</td><td class="val-no">87%</td><td class="val-no">100%</td><td class="val-no">25%</td>
+      </tr>
+      <tr>
+        <td class="city">Firenze <small>sezioni: 354</small></td>
+        <td class="val-si">88%</td><td class="val-si">100%</td><td class="val-si">87%</td><td class="val-si">8%</td>
+        <td class="val-no">99%</td><td class="val-no">94%</td><td class="val-no">99%</td><td class="val-no">16%</td>
+      </tr>
+      <tr class="subtotal">
+        <td class="city">Resto ex zona rossa <small>sez. 7.682</small></td>
+        <td class="val-si">77%</td><td class="val-si">62%</td><td class="val-si">44%</td><td class="val-si">23%</td>
+        <td class="val-no">82%</td><td class="val-no">67%</td><td class="val-no">100%</td><td class="val-no">25%</td>
+      </tr>
+
+      <tr class="section-gap"><td colspan="9"></td></tr>
+
+      <!-- CENTRO-SUD -->
+      <tr>
+        <td class="city">Roma <small>sezioni: 2.569</small></td>
+        <td class="val-si">84%</td><td class="val-si">100%</td><td class="val-si">97%</td><td class="val-si">15%</td>
+        <td class="val-no">100%</td><td class="val-no">100%</td><td class="val-no">100%</td><td class="val-no">23%</td>
+      </tr>
+      <tr>
+        <td class="city">Napoli <small>sezioni: 869</small></td>
+        <td class="val-si">83%</td><td class="val-si">48%</td><td class="val-si">41%</td><td class="val-si">7%</td>
+        <td class="val-no">95%</td><td class="val-no">86%</td><td class="val-no">92%</td><td class="val-no">18%</td>
+      </tr>
+      <tr>
+        <td class="city">Bari <small>sezioni: 338</small></td>
+        <td class="val-si">75%</td><td class="val-si">80%</td><td class="val-si">85%</td><td class="val-si">0%</td>
+        <td class="val-no">82%</td><td class="val-no">86%</td><td class="val-no">100%</td><td class="val-no">0%</td>
+      </tr>
+      <tr>
+        <td class="city">Palermo <small>sezioni: 593</small></td>
+        <td class="val-si">65%</td><td class="val-si">56%</td><td class="val-si">69%</td><td class="val-si">5%</td>
+        <td class="val-no">78%</td><td class="val-no">98%</td><td class="val-no">98%</td><td class="val-no">15%</td>
+      </tr>
+      <tr class="subtotal">
+        <td class="city">Resto Centro-Sud e Isole <small>sez. 13.411</small></td>
+        <td class="val-si">77%</td><td class="val-si">30%</td><td class="val-si">57%</td><td class="val-si">15%</td>
+        <td class="val-no">81%</td><td class="val-no">30%</td><td class="val-no">93%</td><td class="val-no">27%</td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+
+</div>
+</body>
+</html>
