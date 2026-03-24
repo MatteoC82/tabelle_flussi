@@ -15,8 +15,6 @@
     --si-accent: #2a7a5e;
     --no-bg: #fdecea;
     --no-accent: #c0392b;
-    --ast-bg: #f0f0f8;
-    --ast-accent: #4a4a8a;
     --subtotal-bg: #3b4a5c;
     --subtotal-fg: #eef2f6;
     --stripe: #f4f4ef;
@@ -86,6 +84,20 @@
     min-width: 700px;
   }
 
+  /* ── TOP HEADER ROW ── */
+  thead tr.top-row th.top-header {
+    padding: 0.6rem 0.8rem 0.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--ink);
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    letter-spacing: 0.02em;
+  }
+  thead tr.top-row th.col-city { background: var(--bg); }
+
   /* ── GROUP HEADER ROW ── */
   thead tr.group-row th {
     padding: 0.65rem 0.8rem 0.4rem;
@@ -107,11 +119,6 @@
     color: var(--no-accent);
     border-left: 1px solid var(--rule);
   }
-  thead tr.group-row th.group-ast {
-    background: var(--ast-bg);
-    color: var(--ast-accent);
-    border-left: 1px solid var(--rule);
-  }
 
   /* ── SUB HEADER ROW ── */
   thead tr.sub-row th {
@@ -125,10 +132,8 @@
     white-space: nowrap;
     color: var(--ink-light);
   }
-  thead tr.sub-row th.sub-si { background: var(--si-bg); }
-  thead tr.sub-row th.sub-si:first-child { border-left: 1px solid var(--rule); }
+  thead tr.sub-row th.sub-si { background: var(--si-bg); border-left: 1px solid var(--rule); }
   thead tr.sub-row th.sub-no { background: var(--no-bg); border-left: 1px solid var(--rule); }
-  thead tr.sub-row th.sub-ast { background: var(--ast-bg); border-left: 1px solid var(--rule); }
 
   /* ── BODY ── */
   tbody tr { transition: background 0.12s; }
@@ -146,7 +151,10 @@
     text-align: left;
     font-weight: 500;
     padding-left: 1rem;
+    padding-right: 0.5rem;
     white-space: nowrap;
+    width: 160px;
+    max-width: 160px;
   }
   tbody td.city small {
     display: block;
@@ -156,12 +164,8 @@
     margin-top: 0.1rem;
   }
 
-  tbody td.val-si { color: var(--si-accent); font-weight: 500; }
-  tbody td.val-si:first-of-type { border-left: 1px solid var(--rule); }
-  tbody td.val-no { color: var(--no-accent); font-weight: 500; }
-  tbody td.val-no:first-of-type { border-left: 1px solid var(--rule); }
-  tbody td.val-ast { color: var(--ast-accent); font-weight: 500; }
-  tbody td.val-ast:first-of-type { border-left: 1px solid var(--rule); }
+  tbody td.val-si { color: var(--si-accent); font-weight: 500; border-left: none; }
+  tbody td.val-no { color: var(--no-accent); font-weight: 500; border-left: none; }
 
   /* ── SUBTOTAL ROWS ── */
   tbody tr.subtotal td {
@@ -175,12 +179,8 @@
   }
   tbody tr.subtotal td.city { color: #ffffff; }
   tbody tr.subtotal td.city small { color: #99b8cc; }
-  tbody tr.subtotal td.val-si { color: #80e6bc; }
-  tbody tr.subtotal td.val-si:first-of-type { border-left: 1px solid #4e6070; }
-  tbody tr.subtotal td.val-no { color: #f4a09a; }
-  tbody tr.subtotal td.val-no:first-of-type { border-left: 1px solid #4e6070; }
-  tbody tr.subtotal td.val-ast { color: #aabfd4; }
-  tbody tr.subtotal td.val-ast:first-of-type { border-left: 1px solid #4e6070; }
+  tbody tr.subtotal td.val-si { color: #80e6bc; border-left: none; }
+  tbody tr.subtotal td.val-no { color: #f4a09a; border-left: none; }
 
   /* ── SECTION GAP ── */
   tr.section-gap td {
@@ -195,28 +195,29 @@
 <div class="wrapper">
 
   <div class="title-block">
-    <h1>Referendum – Elettorato per voto alle Europee 2024</h1>
-    <p>Percentuale di voto Sì / No / Astenuti per partito di riferimento</p>
+    <h1>Flussi di voto tra le elezioni europee 2024 e referendum costituzionale 2026</h1>
   </div>
 
   <div class="table-wrap">
   <table>
     <thead>
+      <tr class="top-row">
+        <th class="col-city" rowspan="3"></th>
+        <th class="top-header" colspan="8">Elettorato Europee 2024</th>
+      </tr>
       <tr class="group-row">
-        <th class="col-city" rowspan="2"></th>
-        <th class="group-si" colspan="3">Perc. di chi ha votato Sì</th>
-        <th class="group-no" colspan="3">Perc. di chi ha votato No</th>
-        <th class="group-ast" colspan="2">Perc. di chi si era astenuto</th>
+        <th class="group-si" colspan="4">Perc. di chi ha votato Sì</th>
+        <th class="group-no" colspan="4">Perc. di chi ha votato No</th>
       </tr>
       <tr class="sub-row">
         <th class="sub-si">FDI</th>
         <th class="sub-si">FI</th>
         <th class="sub-si">Lega</th>
+        <th class="sub-si">Astenuti '24<br>verso il Sì</th>
         <th class="sub-no">PD</th>
         <th class="sub-no">M5S</th>
         <th class="sub-no">AVS</th>
-        <th class="sub-ast">Astenuti<br>verso il Sì</th>
-        <th class="sub-ast">Astenuti<br>verso il No</th>
+        <th class="sub-no">Astenuti '24<br>verso il No</th>
       </tr>
     </thead>
     <tbody>
@@ -224,33 +225,28 @@
       <!-- NORD -->
       <tr>
         <td class="city">Torino <small>sezioni: 911</small></td>
-        <td class="val-si">84%</td><td class="val-si">91%</td><td class="val-si">85%</td>
-        <td class="val-no">100%</td><td class="val-no">89%</td><td class="val-no">100%</td>
-        <td class="val-ast">7%</td><td class="val-ast">21%</td>
+        <td class="val-si">84%</td><td class="val-si">91%</td><td class="val-si">85%</td><td class="val-si">7%</td>
+        <td class="val-no">100%</td><td class="val-no">89%</td><td class="val-no">100%</td><td class="val-no">21%</td>
       </tr>
       <tr>
         <td class="city">Milano <small>sezioni: 1.227</small></td>
-        <td class="val-si">94%</td><td class="val-si">100%</td><td class="val-si">67%</td>
-        <td class="val-no">99%</td><td class="val-no">84%</td><td class="val-no">100%</td>
-        <td class="val-ast">11%</td><td class="val-ast">20%</td>
+        <td class="val-si">94%</td><td class="val-si">100%</td><td class="val-si">67%</td><td class="val-si">11%</td>
+        <td class="val-no">99%</td><td class="val-no">84%</td><td class="val-no">100%</td><td class="val-no">20%</td>
       </tr>
       <tr>
         <td class="city">Verona <small>sezioni: 260</small></td>
-        <td class="val-si">96%</td><td class="val-si">91%</td><td class="val-si">86%</td>
-        <td class="val-no">92%</td><td class="val-no">90%</td><td class="val-no">100%</td>
-        <td class="val-ast">9%</td><td class="val-ast">20%</td>
+        <td class="val-si">96%</td><td class="val-si">91%</td><td class="val-si">86%</td><td class="val-si">9%</td>
+        <td class="val-no">92%</td><td class="val-no">90%</td><td class="val-no">100%</td><td class="val-no">20%</td>
       </tr>
       <tr>
         <td class="city">Genova <small>sezioni: 648</small></td>
-        <td class="val-si">87%</td><td class="val-si">98%</td><td class="val-si">72%</td>
-        <td class="val-no">100%</td><td class="val-no">90%</td><td class="val-no">100%</td>
-        <td class="val-ast">10%</td><td class="val-ast">21%</td>
+        <td class="val-si">87%</td><td class="val-si">98%</td><td class="val-si">72%</td><td class="val-si">10%</td>
+        <td class="val-no">100%</td><td class="val-no">90%</td><td class="val-no">100%</td><td class="val-no">21%</td>
       </tr>
       <tr class="subtotal">
         <td class="city">Resto del Nord <small>sez. 11.302</small></td>
-        <td class="val-si">82%</td><td class="val-si">41%</td><td class="val-si">47%</td>
-        <td class="val-no">94%</td><td class="val-no">66%</td><td class="val-no">100%</td>
-        <td class="val-ast">25%</td><td class="val-ast">20%</td>
+        <td class="val-si">82%</td><td class="val-si">41%</td><td class="val-si">47%</td><td class="val-si">25%</td>
+        <td class="val-no">94%</td><td class="val-no">66%</td><td class="val-no">100%</td><td class="val-no">20%</td>
       </tr>
 
       <tr class="section-gap"><td colspan="9"></td></tr>
@@ -258,21 +254,18 @@
       <!-- EX ZONA ROSSA -->
       <tr>
         <td class="city">Bologna <small>sezioni: 437</small></td>
-        <td class="val-si">96%</td><td class="val-si">78%</td><td class="val-si">85%</td>
-        <td class="val-no">99%</td><td class="val-no">87%</td><td class="val-no">100%</td>
-        <td class="val-ast">12%</td><td class="val-ast">25%</td>
+        <td class="val-si">96%</td><td class="val-si">78%</td><td class="val-si">85%</td><td class="val-si">12%</td>
+        <td class="val-no">99%</td><td class="val-no">87%</td><td class="val-no">100%</td><td class="val-no">25%</td>
       </tr>
       <tr>
         <td class="city">Firenze <small>sezioni: 354</small></td>
-        <td class="val-si">88%</td><td class="val-si">100%</td><td class="val-si">87%</td>
-        <td class="val-no">99%</td><td class="val-no">94%</td><td class="val-no">99%</td>
-        <td class="val-ast">8%</td><td class="val-ast">16%</td>
+        <td class="val-si">88%</td><td class="val-si">100%</td><td class="val-si">87%</td><td class="val-si">8%</td>
+        <td class="val-no">99%</td><td class="val-no">94%</td><td class="val-no">99%</td><td class="val-no">16%</td>
       </tr>
       <tr class="subtotal">
         <td class="city">Resto ex zona rossa <small>sez. 7.682</small></td>
-        <td class="val-si">77%</td><td class="val-si">62%</td><td class="val-si">44%</td>
-        <td class="val-no">82%</td><td class="val-no">67%</td><td class="val-no">100%</td>
-        <td class="val-ast">23%</td><td class="val-ast">25%</td>
+        <td class="val-si">77%</td><td class="val-si">62%</td><td class="val-si">44%</td><td class="val-si">23%</td>
+        <td class="val-no">82%</td><td class="val-no">67%</td><td class="val-no">100%</td><td class="val-no">25%</td>
       </tr>
 
       <tr class="section-gap"><td colspan="9"></td></tr>
@@ -280,33 +273,28 @@
       <!-- CENTRO-SUD -->
       <tr>
         <td class="city">Roma <small>sezioni: 2.569</small></td>
-        <td class="val-si">84%</td><td class="val-si">100%</td><td class="val-si">97%</td>
-        <td class="val-no">100%</td><td class="val-no">100%</td><td class="val-no">100%</td>
-        <td class="val-ast">15%</td><td class="val-ast">23%</td>
+        <td class="val-si">84%</td><td class="val-si">100%</td><td class="val-si">97%</td><td class="val-si">15%</td>
+        <td class="val-no">100%</td><td class="val-no">100%</td><td class="val-no">100%</td><td class="val-no">23%</td>
       </tr>
       <tr>
         <td class="city">Napoli <small>sezioni: 869</small></td>
-        <td class="val-si">83%</td><td class="val-si">48%</td><td class="val-si">41%</td>
-        <td class="val-no">95%</td><td class="val-no">86%</td><td class="val-no">92%</td>
-        <td class="val-ast">7%</td><td class="val-ast">18%</td>
+        <td class="val-si">83%</td><td class="val-si">48%</td><td class="val-si">41%</td><td class="val-si">7%</td>
+        <td class="val-no">95%</td><td class="val-no">86%</td><td class="val-no">92%</td><td class="val-no">18%</td>
       </tr>
       <tr>
         <td class="city">Bari <small>sezioni: 338</small></td>
-        <td class="val-si">75%</td><td class="val-si">80%</td><td class="val-si">85%</td>
-        <td class="val-no">82%</td><td class="val-no">86%</td><td class="val-no">100%</td>
-        <td class="val-ast">0%</td><td class="val-ast">0%</td>
+        <td class="val-si">75%</td><td class="val-si">80%</td><td class="val-si">85%</td><td class="val-si">0%</td>
+        <td class="val-no">82%</td><td class="val-no">86%</td><td class="val-no">100%</td><td class="val-no">0%</td>
       </tr>
       <tr>
         <td class="city">Palermo <small>sezioni: 593</small></td>
-        <td class="val-si">65%</td><td class="val-si">56%</td><td class="val-si">69%</td>
-        <td class="val-no">78%</td><td class="val-no">98%</td><td class="val-no">98%</td>
-        <td class="val-ast">5%</td><td class="val-ast">15%</td>
+        <td class="val-si">65%</td><td class="val-si">56%</td><td class="val-si">69%</td><td class="val-si">5%</td>
+        <td class="val-no">78%</td><td class="val-no">98%</td><td class="val-no">98%</td><td class="val-no">15%</td>
       </tr>
       <tr class="subtotal">
         <td class="city">Resto Centro-Sud e Isole <small>sez. 13.411</small></td>
-        <td class="val-si">77%</td><td class="val-si">30%</td><td class="val-si">57%</td>
-        <td class="val-no">81%</td><td class="val-no">30%</td><td class="val-no">93%</td>
-        <td class="val-ast">15%</td><td class="val-ast">27%</td>
+        <td class="val-si">77%</td><td class="val-si">30%</td><td class="val-si">57%</td><td class="val-si">15%</td>
+        <td class="val-no">81%</td><td class="val-no">30%</td><td class="val-no">93%</td><td class="val-no">27%</td>
       </tr>
 
     </tbody>
